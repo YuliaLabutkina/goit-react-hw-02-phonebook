@@ -10,11 +10,18 @@ const FilterLabel = styled.label`
 `;
 
 const FilterInput = styled.input`
+  width: 200px;
+  font-size: 18px;
   margin-top: 20px;
   margin-right: auto;
   margin-left: auto;
   padding-left: 16px;
   padding-right: 16px;
+
+  &::placeholder {
+    padding-left: 10px;
+    font-size: 16px;
+  }
 `;
 
 export { FilterLabel, FilterInput };

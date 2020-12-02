@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 
 import ContactForm from '../ContactForm';
 import Filter from '../Filter';
@@ -12,38 +12,35 @@ class App extends Component {
     filter: '',
   };
 
-  handleSubmitContactForm = data => {
-    const handleName = data.name.toLowerCase();
-
-    if (
-      this.state.contacts.find(({ name }) => name.toLowerCase() === handleName)
-    ) {
-      alert(`${data.name} is already in contact`);
-      return;
-    } else {
-      this.setState(prev => {
-        return { contacts: [...prev.contacts, data] };
-      });
-    }
+  checkingForExistenceOfSuchName = verifiableName => {
+    const { contacts } = this.state;
+    const handleName = verifiableName.toLowerCase();
+    return contacts.find(({ name }) => name.toLowerCase() === handleName);
   };
 
-  changeFilterName = e => {
-    this.setState({ filter: e.currentTarget.value });
+  handleSubmitContactForm = data => {
+    const { name } = data;
+
+    this.checkingForExistenceOfSuchName(name)
+      ? alert(`${name} is already in contact`)
+      : this.setState(prev => ({ contacts: [...prev.contacts, data] }));
+  };
+
+  changeFilterName = ({ target }) => {
+    const { value } = target;
+    this.setState({ filter: value });
   };
 
   deleteContact = contactId => {
-    this.setState(prev => {
-      return {
-        contacts: [...prev.contacts.filter(({ id }) => id !== contactId)],
-      };
-    });
+    this.setState(prev => ({
+      contacts: [...prev.contacts.filter(({ id }) => id !== contactId)],
+    }));
   };
 
   render() {
-    const { filter } = this.state;
-
+    const { filter, contacts } = this.state;
     const searchName = filter.toLowerCase();
-    const filterContacts = this.state.contacts.filter(({ name }) =>
+    const filterContacts = contacts.filter(({ name }) =>
       name.toLowerCase().includes(searchName),
     );
 

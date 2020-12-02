@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import PropTypes from 'prop-types';
 import { Form, LabelForm, InputForm, Button } from './ContactFormStyle';
@@ -9,8 +9,9 @@ class ContactForm extends Component {
     number: '',
   };
 
-  handleChange = e => {
-    this.setState({ [e.currentTarget.name]: e.target.value });
+  handleChange = ({ target }) => {
+    const { name, value } = target;
+    this.setState({ [name]: value });
   };
 
   handleSubmit = event => {
@@ -32,7 +33,6 @@ class ContactForm extends Component {
     return (
       <Form onSubmit={this.handleSubmit}>
         <LabelForm>
-          {' '}
           Name
           <InputForm
             onChange={this.handleChange}
@@ -44,7 +44,6 @@ class ContactForm extends Component {
           />
         </LabelForm>
         <LabelForm>
-          {' '}
           Number
           <InputForm
             onChange={this.handleChange}

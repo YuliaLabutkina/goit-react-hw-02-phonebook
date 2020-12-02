@@ -4,9 +4,13 @@ import { FilterLabel, FilterInput } from './FilterStyle';
 const Filter = ({ value, changeFilterName }) => {
   return (
     <FilterLabel>
-      {' '}
       Find contacts by name
-      <FilterInput value={value} onChange={changeFilterName} type="text" />
+      <FilterInput
+        value={value}
+        onChange={changeFilterName}
+        type="text"
+        placeholder="Enter name"
+      />
     </FilterLabel>
   );
 };
