@@ -19,11 +19,7 @@ class App extends Component {
   };
 
   handleSubmitContactForm = data => {
-    const { name } = data;
-
-    this.checkingForExistenceOfSuchName(name)
-      ? alert(`${name} is already in contact`)
-      : this.setState(prev => ({ contacts: [...prev.contacts, data] }));
+    this.setState(({ contacts }) => ({ contacts: [...contacts, data] }));
   };
 
   changeFilterName = ({ target }) => {
@@ -32,22 +28,30 @@ class App extends Component {
   };
 
   deleteContact = contactId => {
-    this.setState(prev => ({
-      contacts: [...prev.contacts.filter(({ id }) => id !== contactId)],
+    this.setState(({ contacts }) => ({
+      contacts: [...contacts.filter(({ id }) => id !== contactId)],
     }));
   };
 
-  render() {
+  filterByName = () => {
     const { filter, contacts } = this.state;
     const searchName = filter.toLowerCase();
-    const filterContacts = contacts.filter(({ name }) =>
+    return contacts.filter(({ name }) =>
       name.toLowerCase().includes(searchName),
     );
+  };
+
+  render() {
+    const { filter } = this.state;
+    const filterContacts = this.filterByName();
 
     return (
       <Container>
         <MainTitle>Phonebook</MainTitle>
-        <ContactForm handleSubmitContactForm={this.handleSubmitContactForm} />
+        <ContactForm
+          handleSubmitContactForm={this.handleSubmitContactForm}
+          checkingForExistenceOfSuchName={this.checkingForExistenceOfSuchName}
+        />
         <ContactTitle>Contacts</ContactTitle>
         <Filter value={filter} changeFilterName={this.changeFilterName} />
         <ContactList

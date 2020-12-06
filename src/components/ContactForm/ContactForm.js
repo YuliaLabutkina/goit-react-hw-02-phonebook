@@ -17,9 +17,15 @@ class ContactForm extends Component {
   handleSubmit = event => {
     event.preventDefault();
     const { name, number } = this.state;
-    const contact = { id: uuidv4(), name, number };
+    const repeatName = this.props.checkingForExistenceOfSuchName(name);
 
-    this.props.handleSubmitContactForm(contact);
+    if (repeatName) {
+      alert(`${name} is already in contact`);
+    } else {
+      const newContact = { id: uuidv4(), name, number };
+      this.props.handleSubmitContactForm(newContact);
+    }
+
     this.reset();
   };
 
